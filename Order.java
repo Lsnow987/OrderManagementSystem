@@ -80,3 +80,5 @@ public class Order {
 		this.isItCompleted = completed;
 	}
 }
+//need this method for order management 
+public Set<Service> getSetofAllServices{}
