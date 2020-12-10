@@ -86,7 +86,13 @@ public class OrderManagementSystem {
 	 * @throws IllegalArgumentException if any part of the order for PRODUCTS can not be fulfilled
 	 * @throws IllegalStateException if any part of the order for SERVICES can not be fulfilled
 	 */
-	public void placeOrder(Order order) {}
+	public void placeOrder(Order order) {
+		Set<Service> allServicesInOrder = order.getSetofAllServices;
+	
+	
+	
+	
+	}
 
 
 
@@ -99,9 +105,9 @@ public class OrderManagementSystem {
 	//  * @return itemNumber of a requested service that we either do not have provider for at all, or
 	// for which we do not have an available provider. Return 0 if all services are valid.
 	//  */
-	protected int validateServices(Collection<Service> services, Order order) {
+// 	protected int validateServices(Collection<Service> services, Order order) {
 
-	}
+// 	}
 
 
 	 
@@ -139,9 +145,9 @@ public class OrderManagementSystem {
 	// Services are offered and which ServiceProviders provide which services
 	//  * @param provider the provider to add
 	//  */
-	protected void addServiceProvider(ServiceProvider provider) {
+// 	protected void addServiceProvider(ServiceProvider provider) {
 
-	}
+// 	}
 
 
 
@@ -149,18 +155,18 @@ public class OrderManagementSystem {
 	//  *
 	//  * @return get the set of all the products offered/sold by this business
 	//  */
-	public Set<Product> getProductCatalog() {
-	    return this.productSet;
-	}
+// 	public Set<Product> getProductCatalog() {
+// 	    return this.productSet;
+// 	}
 	 
 
 	 
 	//  /**
 	//  * @return get the set of all the Services offered/sold by this business
 	//  */
-	public Set<Service> getOfferedServices() {
-		return this.serviceProviderSet;
-	}
+// 	public Set<Service> getOfferedServices() {
+// 		return this.serviceProviderSet;
+// 	}
 
 
 
