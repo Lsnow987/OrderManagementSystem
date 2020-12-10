@@ -87,7 +87,7 @@ public class OrderManagementSystem {
 	 * @throws IllegalStateException if any part of the order for SERVICES can not be fulfilled
 	 */
 	public void placeOrder(Order order) {
-		Set<Service> allServicesInOrder = order.getSetofAllServices;
+		Set<Service> setofAllServicesInOrder = order.getSetofAllServices; //getSetofAllServices is Not a required method, we need to add this to the order class
 	
 	
 	
