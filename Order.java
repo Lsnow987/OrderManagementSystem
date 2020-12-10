@@ -79,6 +79,8 @@ public class Order {
 	public void setCompleted(boolean completed) {
 		this.isItCompleted = completed;
 	}
+	
+	//need this method for order management 
+	public Set<Service> getSetofAllServices(){}
 }
-//need this method for order management 
-public Set<Service> getSetofAllServices(){}
+
