@@ -16,6 +16,29 @@ public class Order {
 	public Item[] getItems(){
 		return (Item[])itemToQuantity.keySet().toArray();
 	}
+	
+	protected Set getServices(){
+		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
+		Set<Service> serviceSet = new HashSet<>();
+		for(Item currentItem : serviceAndProductSet){ 
+			if(currentItem instanceof Service){
+				serviceSet.add((Service)currentItem);
+			}
+		}
+		return serviceSet;
+	}
+
+	protected Set getProducts(){
+		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
+		Set<Product> productSet = new HashSet<>();
+		for(Item currentItem : serviceAndProductSet){ 
+			if(currentItem instanceof Product){
+				productSet.add((Product)currentItem);
+			}
+		}
+		return productSet;
+	}
+	
 	/**
 	* @param b
 	* @return the quantity of the given item ordered in this order. Zero if the item is not in the
