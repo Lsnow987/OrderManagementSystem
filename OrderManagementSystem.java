@@ -94,7 +94,7 @@ public class OrderManagementSystem {
 				throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
 			}
 			//number 4
-			ServiceProvider currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);// i think theres more i should do here for step 4. not totally sure
+			ServiceProvider currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);// i definetly messed up for step 4. not totally sure what i am supposed to do for it
 			currentServiceProvider.assignToCustomer(); //check for nullpointer if has key but no serviceprovider
 		}
 		//number 2 
