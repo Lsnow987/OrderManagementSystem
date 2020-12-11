@@ -73,7 +73,6 @@ public class OrderManagementSystem {
 	 
 
 	 
-	//  /**
 	/**
 	 * Accept an order:
 	 * 1) See if we have ServiceProviders for all Services in the order. If not, reject the order.
@@ -87,11 +86,34 @@ public class OrderManagementSystem {
 	 * @throws IllegalStateException if any part of the order for SERVICES can not be fulfilled
 	 */
 	public void placeOrder(Order order) {
-		Set<Service> setofAllServicesInOrder = order.getSetofAllServices; //getSetofAllServices is Not a required method, we need to add this to the order class
-	
-	
-	
-	
+		//number 1
+		Set<Service> serviceSet = order.getServices(); //see order.java
+		for(Service currentService : serviceSet){
+			boolean mapContainsService = mapOfServicesToTheListOfServiceProviders.keySet().contains(currentService);
+			if(!mapContainsService){
+				throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
+			}
+			//number 4
+			ServiceProvider currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);
+			currentServiceProvider.assignToCustomer(); //check for nullpointer if has key but no serviceprovider
+		}
+		//number 2 
+		Set<Product> productSet = order.getProducts();
+		for(Product currentProduct : productSet){
+			int currentProductQuantityOrdered = order.getQuantity(currentProduct);
+			int currentProductNumber = currentProduct.getItemNumber();
+			boolean canTheOrderBeMadeWithoutRestocking = this.warehouseObject.canFulfill(currentProductNumber, currentProductQuantityOrdered); //int productNumber only expecting products not services????
+			 //check if the product is restockable if i dont have enough
+			boolean canTheOrderBeRestocked = this.warehouseObject.isRestockable(currentProductNumber);
+			if(!canTheOrderBeMade && !canTheOrderBeRestocked){
+				throw new IllegalArgumentException("We do not have enough of the product in stock " + currentProduct.getDescription());
+			}else{
+				this.warehouseObject.restock(currentProductNumber, currentProductQuantityOrdered); //only restocks if their is not enough in stock, otherwise does nothing
+				fulfill(currentProductNumber, currentProductQuantityOrdered);
+			}
+		}
+		//number 3 
+		order.setCompleted(true);
 	}
 
 
