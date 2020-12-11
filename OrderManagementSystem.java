@@ -167,9 +167,9 @@ public class OrderManagementSystem {
 	// Services are offered and which ServiceProviders provide which services
 	//  * @param provider the provider to add
 	//  */
-// 	protected void addServiceProvider(ServiceProvider provider) {
+	protected void addServiceProvider(ServiceProvider provider) {
 
-// 	}
+	}
 
 
 
@@ -177,18 +177,18 @@ public class OrderManagementSystem {
 	//  *
 	//  * @return get the set of all the products offered/sold by this business
 	//  */
-// 	public Set<Product> getProductCatalog() {
-// 	    return this.productSet;
-// 	}
+	public Set<Product> getProductCatalog() {
+	    return this.productSet;
+	}
 	 
 
 	 
 	//  /**
 	//  * @return get the set of all the Services offered/sold by this business
 	//  */
-// 	public Set<Service> getOfferedServices() {
-// 		return this.serviceProviderSet;
-// 	}
+	public Set<Service> getOfferedServices() {
+		return this.serviceProviderSet;
+	}
 
 
 
