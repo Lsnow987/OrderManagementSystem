@@ -134,18 +134,22 @@ public class OrderManagementSystem {
 	//  */
 	protected int validateServices(Collection<Service> services, Order order) {
 		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
+		// Map<Service, ServiceProvider> map = mapOfServicesToTheListOfServiceProviders;
+		// Set<ServiceProvider> sPSet = serviceProviderSet;
+
 		//Validate that all the services being ordered can be provided.
 		for(Service currentService : services){
-		if(!set.contains(currentService)){
-			return currentService.getItemNumber();
-		}
-		
-		//	Make sure to check how many
-		// 	instances of a given service are being requested in the order, and see if we have enough providers
-		// 	for them.
-		if{
-		int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
-		}
+			if(!set.contains(currentService)){
+				return currentService.getItemNumber();
+			}
+			//	Make sure to check how many
+			// 	instances of a given service are being requested in the order, and see if we have enough providers
+			// 	for them.
+			int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
+			if(mapOfServicesToTheListOfServiceProviders.get(currentService).size() < numberOfCurrentServiceBeingOdered){
+				return currentService.getItemNumber();
+			}
+			//Still have to do more work on this one, becuase haven't figured out what happens if using two service providers for that same service
 		return 0;
 	}
 
