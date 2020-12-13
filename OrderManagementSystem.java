@@ -164,7 +164,33 @@ public class OrderManagementSystem {
 	//  * @return itemNumber of product which is either not in the catalog or which we have
 	// insufficient quantity of. Return 0 if we can fulfill.
 	//  */
-	//  protected int validateProducts(Collection<Product> products, Order order) {}
+protected int validateProducts(Collection<Product> products, Order order) {
+	Set<ServiceProvider> allProductsInCatalog = new HashSet<Product>(); 
+	allProductsInCatalog.add(object.getAllProductsInCatalog());
+	Map<Product,Integer> productToAmount= new HashMap<Product,Integer>();
+	
+	for(Product product : products){
+		//return itemNumber of product which is either not in the catalog(realized that don't need this step but doesn't hurt)
+		if(!allProductsInCatalog.contains(product)){	
+			return product.getItemNumber();
+		}
+		//or which we have insufficient quantity of
+		if(productToAmount.get(product) == null){
+			Integer amount = new Integer(1)
+			productToAmount.put(product,amount);
+		}
+		else{
+			Integer newAmount = new Integer(productToAmount.get(product).intValue() + 1);
+		}
+	//or which we have insufficient quantity of(cont)
+	for(Product product : products){
+		if (!warehouseObject.canFulfill(product, productToAmount.get(product).intValue()){
+			return product.getItemNumber();
+		}
+
+	}
+	return 0;
+}
 
 
 
