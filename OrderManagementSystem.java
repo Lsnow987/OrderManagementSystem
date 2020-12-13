@@ -138,7 +138,9 @@ public class OrderManagementSystem {
 		//	Make sure to check how many
 		// 	instances of a given service are being requested in the order, and see if we have enough providers
 		// 	for them.
-		if{}
+		if{
+		int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
+		}
 		return 0;
 	}
 
