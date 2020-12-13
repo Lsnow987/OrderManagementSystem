@@ -131,16 +131,15 @@ public class OrderManagementSystem {
 		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
 		//Validate that all the services being ordered can be provided.
 		for(Service currentService : services){
-			if(!set.contains(currentService)){
-				return currentService.getItemNumber();
-			}
+		if(!set.contains(currentService)){
+			return currentService.getItemNumber();
+		}
 		
-			//	Make sure to check how many
-			// 	instances of a given service are being requested in the order, and see if we have enough providers
-			// 	for them.
-			if{
-			int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
-			}
+		//	Make sure to check how many
+		// 	instances of a given service are being requested in the order, and see if we have enough providers
+		// 	for them.
+		if{
+		int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
 		}
 		return 0;
 	}
@@ -214,7 +213,13 @@ public class OrderManagementSystem {
 	// restock it.
 	//  * @param item the item to discontinue see {@link Item}
 	//  */
-	//  protected void discontinueItem(Item item) {}
+	//  protected void discontinueItem(Item item) {
+	protected void discontinueItem(Item item) {
+		if(items instanceof Service){
+			this.serviceProviderSet.removeService(item); //can icall it on a set?????
+		}else{
+			this.warehouseObject.doNotRestock(item.getItemNumber());
+		}
 	 
 
 	//  /**
