@@ -2,6 +2,7 @@ package edu.yu.cs.intro.orderManagement;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
 /**
 * Stocks products, fulfills product orders, manages stock of products.
 */
