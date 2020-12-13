@@ -127,9 +127,20 @@ public class OrderManagementSystem {
 	//  * @return itemNumber of a requested service that we either do not have provider for at all, or
 	// for which we do not have an available provider. Return 0 if all services are valid.
 	//  */
-// 	protected int validateServices(Collection<Service> services, Order order) {
-
-// 	}
+	protected int validateServices(Collection<Service> services, Order order) {
+		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
+		//Validate that all the services being ordered can be provided.
+	for(Service currentService : services){
+		if(!set.contains(currentService)){
+			return currentService.getItemNumber();
+		}
+		
+		//	Make sure to check how many
+		// 	instances of a given service are being requested in the order, and see if we have enough providers
+		// 	for them.
+		if{}
+		return 0;
+	}
 
 
 	 
