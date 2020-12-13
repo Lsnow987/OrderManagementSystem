@@ -133,6 +133,7 @@ public class OrderManagementSystem {
 	// for which we do not have an available provider. Return 0 if all services are valid.
 	//  */
 	protected int validateServices(Collection<Service> services, Order order) {
+	
 		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
 		// Map<Service, ServiceProvider> map = mapOfServicesToTheListOfServiceProviders;
 		// Set<ServiceProvider> sPSet = serviceProviderSet;
@@ -149,10 +150,11 @@ public class OrderManagementSystem {
 			if(mapOfServicesToTheListOfServiceProviders.get(currentService).size() < numberOfCurrentServiceBeingOdered){
 				return currentService.getItemNumber();
 			}
-			//Still have to do more work on this one, becuase haven't figured out what happens if using two service providers for that same service
+			//**Still have to do more work on this one, becuase haven't figured out what happens if using two service providers for that same service
+		
+		}
 		return 0;
 	}
-
 
 	 
 	//  /**
