@@ -60,15 +60,20 @@ public class OrderManagementSystem {
 	}
 
 	//3) create map of services to the List(set) of service providers
-	Set<Service> setOfServicesFromCurrentServiceProvider;
-	for(ServiceProvider currentServiceProvider : serviceProviderSet){
-		setOfServicesFromCurrentServiceProvider.addAll(currentServiceProvider.getServices());
-		for(Service currentService : setOfServicesFromCurrentServiceProvider){
-			mapOfServicesToTheListOfServiceProviders.put(currentService, currentServiceProvider);
+	for(Service service : setOfServicesFromCurrentServiceProvider){
+		for(ServiceProvider serviceProvider : serviceProviderSet){
+			if(serviceProvider.getServices().contains(service)){
+				if(mapOfServicesToTheListOfServiceProviders.get(service) == null){
+					Set<ServiceProvider> serviceProviderSet = new HashSet<ServiceProvider>(); 
+					serviceProviderSet.add(serviceProvider);
+					mapOfServicesToTheListOfServiceProviders.put(service,serviceProviderSet);
+				}
+				else{
+					mapOfServicesToTheListOfServiceProviders.get(service).add(serviceProvider);
+				}
+			}
 		}	
-		setOfServicesFromCurrentServiceProvider.clear();
 	}
-
 }
 	 
 
