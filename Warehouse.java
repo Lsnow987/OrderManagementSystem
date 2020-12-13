@@ -80,7 +80,18 @@ public class Warehouse {
 	 * @return false if the product is not in the catalog or there are fewer than quantity of the
 	products in the catalog. Otherwise true.
 	 */
-	 protected boolean canFulfill(int productNumber, int quantity){}
+	 protected boolean canFulfill(int productNumber, int quantity){
+		 //return false if the product is not in the catalog
+	 	if(!isInCatalog(productNumber)){
+	 		return false;
+	 	}
+		 //or there are fewer than quantity of the products in the catalog.
+	 	if(getStockLevel(productNumber) < quantity){
+	 		return false;
+	 	}
+		 //Otherwise true.
+	 	return true;
+	 }
 	 /**
 	 * Fulfill an order for the given amount of the given product, i.e. lower the stock levels of
 	the product by the given amount
