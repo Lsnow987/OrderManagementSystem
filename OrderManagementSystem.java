@@ -131,15 +131,16 @@ public class OrderManagementSystem {
 		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
 		//Validate that all the services being ordered can be provided.
 		for(Service currentService : services){
-		if(!set.contains(currentService)){
-			return currentService.getItemNumber();
-		}
+			if(!set.contains(currentService)){
+				return currentService.getItemNumber();
+			}
 		
-		//	Make sure to check how many
-		// 	instances of a given service are being requested in the order, and see if we have enough providers
-		// 	for them.
-		if{
-		int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
+			//	Make sure to check how many
+			// 	instances of a given service are being requested in the order, and see if we have enough providers
+			// 	for them.
+			if{
+			int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
+			}
 		}
 		return 0;
 	}
