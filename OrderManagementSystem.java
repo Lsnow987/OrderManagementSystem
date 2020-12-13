@@ -176,7 +176,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 		}
 		//or which we have insufficient quantity of
 		if(productToAmount.get(product) == null){
-			Integer amount = new Integer(1)
+			Integer amount = new Integer(1);
 			productToAmount.put(product,amount);
 		}
 		else{
@@ -184,7 +184,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 		}
 	//or which we have insufficient quantity of(cont)
 	for(Product product : products){
-		if (!warehouseObject.canFulfill(product, productToAmount.get(product).intValue()){
+		if (!warehouseObject.canFulfill(product, productToAmount.get(product).intValue())){
 			return product.getItemNumber();
 		}
 
