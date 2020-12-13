@@ -227,8 +227,9 @@ public class OrderManagementSystem {
 	//  * @param prod
 	//  * @param level
 	//  */
-	//  protected void setDefaultProductStockLevel(Product prod, int level) {}
-
+	protected void setDefaultProductStockLevel(Product prod, int level) {
+	  	this.warehouseObject.setDefaultStockLevel(prod.getItemNumber(), level);
+	}
 
 
 
