@@ -130,7 +130,7 @@ public class OrderManagementSystem {
 	protected int validateServices(Collection<Service> services, Order order) {
 		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
 		//Validate that all the services being ordered can be provided.
-	for(Service currentService : services){
+		for(Service currentService : services){
 		if(!set.contains(currentService)){
 			return currentService.getItemNumber();
 		}
