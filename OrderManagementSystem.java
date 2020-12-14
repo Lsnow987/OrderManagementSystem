@@ -12,6 +12,7 @@ public class OrderManagementSystem {
 	private Warehouse warehouseObject;
 	private Set<Service> setOfServicesProvidedByTheServiceProviders;
 	private Map<Service, ServiceProvider>  mapOfServicesToTheListOfServiceProviders;
+	private Map<ServiceProvider, Integer> busyOrFree;
 
 	/**
 	* Creates a new Warehouse instance ******** and calls the other constructor
@@ -21,11 +22,11 @@ public class OrderManagementSystem {
 	* @param serviceProviders
 	*/
 	public OrderManagementSystem(Set<Product> products, int defaultProductStockLevel, Set<ServiceProvider> serviceProviders) {
-		this.productSet = products;
-		this.productStockLevel = defaultProductStockLevel;
-		this.serviceProviderSet = serviceProviders;
-		this.warehouseObject = new Warehouse();
-		OrderManagementSystem(this.productSet, this.productStockLevel, this.serviceProviderSet, this.warehouseObject); 
+		//this.productSet = products;
+		//this.productStockLevel = defaultProductStockLevel;
+		//this.serviceProviderSet = serviceProviders;
+		//this.warehouseObject = new Warehouse();
+		OrderManagementSystem(products, defaultProductStockLevel, serviceProviders, new Warehouse()); 
 	}
 
 	/**
@@ -42,7 +43,6 @@ public class OrderManagementSystem {
 	*/
 	public OrderManagementSystem(Set<Product> products, int defaultProductStockLevel,
 	Set<ServiceProvider> serviceProviders, Warehouse warehouse) {
-	//initialize the variables       //not sure if what I'm doing at this step is correct
 		this.productSet = products;
 		this.productStockLevel = defaultProductStockLevel;
 		this.serviceProviderSet = serviceProviders;
