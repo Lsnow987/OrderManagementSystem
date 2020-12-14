@@ -55,24 +55,25 @@ public class OrderManagementSystem {
 
 		//2) retrieve set of services provided by the ServiceProviders, to save it as the set of
 	//services the business can provide
-	for(ServiceProvider currentServiceProvider : serviceProviderSet){
-		this.setOfServicesProvidedByTheServiceProviders.addAll(currentServiceProvider.getServices());
-	}
+	//for(ServiceProvider currentServiceProvider : serviceProviderSet){
+		//this.setOfServicesProvidedByTheServiceProviders.addAll(currentServiceProvider.getServices());
+	//}
 
 	//3) create map of services to the List(set) of service providers
-	for(Service service : setOfServicesFromCurrentServiceProvider){
+	//for(Service service : setOfServicesFromCurrentServiceProvider){
 		for(ServiceProvider serviceProvider : serviceProviderSet){
-			if(serviceProvider.getServices().contains(service)){
-				if(mapOfServicesToTheListOfServiceProviders.get(service) == null){
-					Set<ServiceProvider> serviceProviderSet = new HashSet<ServiceProvider>(); 
-					serviceProviderSet.add(serviceProvider);
-					mapOfServicesToTheListOfServiceProviders.put(service,serviceProviderSet);
-				}
-				else{
-					mapOfServicesToTheListOfServiceProviders.get(service).add(serviceProvider);
-				}
-			}
-		}	
+			addServiceProvider(serviceProvider);
+			//if(serviceProvider.getServices().contains(service)){
+				//if(mapOfServicesToTheListOfServiceProviders.get(service) == null){
+					//Set<ServiceProvider> serviceProviderSet = new HashSet<ServiceProvider>(); 
+					//serviceProviderSet.add(serviceProvider);
+					//mapOfServicesToTheListOfServiceProviders.put(service,serviceProviderSet);
+				//}
+				//else{
+					//mapOfServicesToTheListOfServiceProviders.get(service).add(serviceProvider);
+				//}
+			//}
+		//}	
 	}
 }
 	 
@@ -92,15 +93,37 @@ public class OrderManagementSystem {
 	 */
 	public void placeOrder(Order order) {
 		//number 1
+		Set<ServiceProvider> serviceProvidersForThisOrder = new HashSet<>();
 		Set<Service> serviceSet = order.getServices(); //see order.java
 		for(Service currentService : serviceSet){
+			//serviceProvidersForThisOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
+			Set<ServiceProvider> allServiceProvidersForOneOrder = mapOfServicesToTheListOfServiceProviders.get(currentService)
+			boolean allServiceProvidersAreBusy = true;
+			for (ServiceProvider currentServiceProvider : allServiceProvidersForOneOrder) {
+				if (!busy) {                                                         //doesn't exist i need to figure out a way to set things to busy and check if they are busy
+					serviceProvidersForThisOrder.add(currentServiceProvider);
+					allServiceProvidersAreBusy = false;
+					//currentServiceProvider.assignToCustomer()
+					break;
+				}
+			}
+			if (allServiceProvidersAreBusy) {
+				throw new IllegalStateException ("Provider is currently assigned to a job");
+			}
+
 			boolean mapContainsService = mapOfServicesToTheListOfServiceProviders.keySet().contains(currentService);
 			if(!mapContainsService){
 				throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
 			}
 			//number 4
-			ServiceProvider currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);// i definetly messed up for step 4. not totally sure what i am supposed to do for it
-			currentServiceProvider.assignToCustomer(); //check for nullpointer if has key but no serviceprovider
+			//Set<Service> currentService = mapOfServicesToTheListOfServiceProviders.keySet();
+
+
+
+			//Set<ServiceProvider> currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);
+			 //keySet()
+
+			//what do i do when he is busy???
 		}
 		//number 2 
 		Set<Product> productSet = order.getProducts();
@@ -119,6 +142,26 @@ public class OrderManagementSystem {
 		}
 		//number 3 
 		order.setCompleted(true);
+
+		//number 4
+		//for(ServiceProvider currentServiceProviderInTheOrder : serviceProvidersForThisOrder){
+
+		//}
+		serviceProvidersForThisOrder
+		assignToCustomer() 
+
+
+
+		for(ServiceProvider currentServiceProviderInTheSet : serviceProviderSet){
+			int count = busyOrFree.getOrDefault(currentServiceProviderInTheSet, 0);
+			count++;
+			busyOrFree.put(currentServiceProviderInTheSet, count);
+			if (count%4 == 0 && count>0) {
+				currentServiceProvider.endCustomerEngagement();
+			}
+
+			//currentServiceProvider.assignToCustomer(); //check for nullpointer if has key but no serviceprovider
+		}
 	}
 
 
@@ -218,7 +261,18 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	//  * @param provider the provider to add
 	//  */
 	protected void addServiceProvider(ServiceProvider provider) {
-
+		for(Service currentService : provider.getServices()){
+			setOfServicesProvidedByTheServiceProviders.add(currentService);
+			if(mapOfServicesToTheListOfServiceProviders.get(currentService)==null){
+				Set<ServiceProvider> serviceProvidersForCurrentService = new HashSet<>();
+				serviceProvidersForCurrentService.add(provider);
+				mapOfServicesToTheListOfServiceProviders.put(currentService, serviceProvidersForCurrentService);
+			}else{
+				Set<ServiceProvider> serviceProvidersForCurrentServiceAlreadyInMap = mapOfServicesToTheListOfServiceProviders.get(currentService);
+				serviceProvidersForCurrentServiceAlreadyInMap.add(provider);
+			}
+		}	
+		serviceProviderSet.add(provider);
 	}
 
 
@@ -251,13 +305,32 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	//  * @param item the item to discontinue see {@link Item}
 	//  */
 	//  protected void discontinueItem(Item item) {
-	protected void discontinueItem(Item item) {
+		
+		protected void discontinueItem(Item item) {
 		if(items instanceof Service){
-			this.serviceProviderSet.removeService(item); //can icall it on a set?????
+			setOfServicesProvidedByTheServiceProvidersremove((Service)item); //remove from here
+			mapOfServicesToTheListOfServiceProviders.remove((Service)item); //also here
+			//this.serviceProviderSet.removeService((Service)item); //can icall it on a set?????
 		}else{
 			this.warehouseObject.doNotRestock(item.getItemNumber());
 		}
-	 
+		Set<Item> itemsThatCannotBeAdded = new HashSet<>();
+	 	itemsThatCannotBeAdded.add(item);//need to check this set always before i try adding so prob should make it an instance variable
+
+	//  /**
+	//  * Set the default product stock level for the given product
+	//  * @param prod
+	//  * @param level
+	//  */
+	protected void setDefaultProductStockLevel(Product prod, int level) {
+	  	this.warehouseObject.setDefaultStockLevel(prod.getItemNumber(), level);
+	}
+		
+		
+		
+		
+		
+		
 
 	//  /**
 	//  * Set the default product stock level for the given product
