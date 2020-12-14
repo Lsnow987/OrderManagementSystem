@@ -31,6 +31,12 @@ public class ServiceProvider {
  	public int getId(){
  		return this.id;
  	}
+	
+	//****** Method needed for orderManagementSystem
+ 	//-Adam
+ 	protected boolean isBusy(){
+ 		return busy;
+ 	}
 
 	/**
 	 * Assign this provider to a customer. Record the fact that he is busy.
