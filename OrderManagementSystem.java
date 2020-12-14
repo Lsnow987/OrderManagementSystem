@@ -167,37 +167,42 @@ public class OrderManagementSystem {
 
 
 	//  /**
-	//  * Validate that all the services being ordered can be provided. Make sure to check how many
-	// instances of a given service are being requested in the order, and see if we have enough providers
-	// for them.
-	//  * @param services the set of services which are being ordered inside the order
-	//  * @param order the order whose services we are validating
-	//  * @return itemNumber of a requested service that we either do not have provider for at all, or
-	// for which we do not have an available provider. Return 0 if all services are valid.
-	//  */
-	protected int validateServices(Collection<Service> services, Order order) {
+//  * Validate that all the services being ordered can be provided. Make sure to check how many
+// instances of a given service are being requested in the order, and see if we have enough providers
+// for them.
+//  * @param services the set of services which are being ordered inside the order
+//  * @param order the order whose services we are validating
+//  * @return itemNumber of a requested service that we either do not have provider for at all, or
+// for which we do not have an available provider. Return 0 if all services are valid.
+//  */
+protected int validateServices(Collection<Service> services, Order order) {
 	
-		Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
-		// Map<Service, ServiceProvider> map = mapOfServicesToTheListOfServiceProviders;
-		// Set<ServiceProvider> sPSet = serviceProviderSet;
+	Set<Service> set = this.setOfServicesProvidedByTheServiceProviders; 
+	// Map<Service, ServiceProvider> map = mapOfServicesToTheListOfServiceProviders;
+	// Set<ServiceProvider> sPSet = serviceProviderSet;
 
-		//Validate that all the services being ordered can be provided.
-		for(Service currentService : services){
-			if(!set.contains(currentService)){
-				return currentService.getItemNumber();
-			}
-			//	Make sure to check how many
-			// 	instances of a given service are being requested in the order, and see if we have enough providers
-			// 	for them.
-			int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
-			if(mapOfServicesToTheListOfServiceProviders.get(currentService).size() < numberOfCurrentServiceBeingOdered){
-				return currentService.getItemNumber();
-			}
-			//**Still have to do more work on this one, becuase haven't figured out what happens if using two service providers for that same service
-		
+	//Validate that all the services being ordered can be provided.
+	for(Service currentService : services){
+		if(!set.contains(currentService)){
+			return currentService.getItemNumber();
 		}
-		return 0;
+		//	Make sure to check how many
+		// 	instances of a given service are being requested in the order, and see if we have enough providers
+		// 	for them.
+		int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
+		Set<ServiceProvider> sP = mapOfServicesToTheListOfServiceProviders.get(currentService);
+		int availableSP = 0;
+			for (ServiceProvider currentSP : sP){
+				if(!currentSP.isBusy()){
+					availableSP++;
+				}
+			}
+		if(availableSP < numberOfCurrentServiceBeingOdered){
+			return currentService.getItemNumber();
+		}
 	}
+	return 0;
+}
 
 	 
 	//  /**
