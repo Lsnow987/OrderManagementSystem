@@ -229,13 +229,14 @@ protected int validateProducts(Collection<Product> products, Order order) {
 		}
 		else{
 			Integer newAmount = new Integer(productToAmount.get(product).intValue() + 1);
+			productToAmount.put(product,newAmount);
 		}
+	}
 	//or which we have insufficient quantity of(cont)
 	for(Product product : products){
-		if (!warehouseObject.canFulfill(product, productToAmount.get(product).intValue())){
+		if (!warehouseObject.canFulfill(product, productToAmount.get(product).intValue()) && !warehouseObject.isRestockable(product.getItemNumber())){
 			return product.getItemNumber();
 		}
-
 	}
 	return 0;
 }
