@@ -3,6 +3,7 @@ import java.util.Set;
 import java.util.Map;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.HashMap;
 /**
 * Takes orders, manages the warehouse as well as service providers
 */
@@ -15,7 +16,7 @@ public class OrderManagementSystem {
 	private Set<Service> setOfServicesProvidedByTheServiceProviders;
 	private Map<Service, Set<ServiceProvider>>   mapOfServicesToTheListOfServiceProviders;
 	private Map<ServiceProvider, Integer> busyOrFree;
-	private Set<Item> itemsThatCannotBeAdded;
+	private Set<Service> itemsThatCannotBeAdded;
 
 	/**
 	* Creates a new Warehouse instance ******** and calls the other constructor
@@ -219,8 +220,8 @@ protected int validateServices(Collection<Service> services, Order order) {
 	// insufficient quantity of. Return 0 if we can fulfill.
 	//  */
 protected int validateProducts(Collection<Product> products, Order order) {
-	Set<ServiceProvider> allProductsInCatalog = new HashSet<Product>(); 
-	allProductsInCatalog.add(object.getAllProductsInCatalog());
+	Set<Product> allProductsInCatalog = new HashSet<Product>(); 
+	allProductsInCatalog.addAll(this.warehouseObject.getAllProductsInCatalog());
 	Map<Product,Integer> productToAmount= new HashMap<Product,Integer>();
 	
 	for(Product product : products){
@@ -240,7 +241,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	}
 	//or which we have insufficient quantity of(cont)
 	for(Product product : products){
-		if (!warehouseObject.canFulfill(product, productToAmount.get(product).intValue()) && !warehouseObject.isRestockable(product.getItemNumber())){
+		if (!warehouseObject.canFulfill(product.getItemNumber(), productToAmount.get(product).intValue()) && !warehouseObject.isRestockable(product.getItemNumber())){
 			return product.getItemNumber();
 		}
 	}
@@ -256,13 +257,17 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	// already in the warehouse before this was called!)
 	//  */
 	protected Set<Product> addNewProducts(Collection<Product> products) {
- 		for (Product currentProduct : products) {
-  			if(itemsThatCannotBeAdded.contains((Item) currentProduct)){
-				//what am i supposed to do here???
-			}
-  		}
+  		//for (Product currentProduct : products) {
+  			//if(itemsThatCannotBeAdded.contains((Item) currentProduct)){
+			//what am i supposed to do here???
+			//}
+  		//}
+
+
+  		
 		
 		for(Product currentProduct : products){ //do i need to check if product already exists
+			
 			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
 		}
 		Set<Product> productSetAdded = new HashSet<>();
@@ -278,7 +283,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	// Services are offered and which ServiceProviders provide which services
 	//  * @param provider the provider to add
 	//  */
-	protected void addServiceProvider(ServiceProvider provider) { //we are adding services here so we need to check if this is on the do not add list
+	protected void addServiceProvider(ServiceProvider provider) {
 		for(Service currentService : provider.getServices()){
 			setOfServicesProvidedByTheServiceProviders.add(currentService);
 			if(mapOfServicesToTheListOfServiceProviders.get(currentService)==null){
@@ -329,11 +334,12 @@ protected int validateProducts(Collection<Product> products, Order order) {
 			setOfServicesProvidedByTheServiceProviders.remove((Service)item); //remove from here
 			mapOfServicesToTheListOfServiceProviders.remove((Service)item); //also here
 			//this.serviceProviderSet.removeService((Service)item); //can icall it on a set?????
+			itemsThatCannotBeAdded.add((Service)item);
 		}else{
 			this.warehouseObject.doNotRestock(item.getItemNumber());
 		}
 		//Set<Item> itemsThatCannotBeAdded = new HashSet<>();
-	 	itemsThatCannotBeAdded.add(item);//need to check this set always before i try adding so prob should make it an instance variable
+	 	//need to check this set always before i try adding so prob should make it an instance variable
 	}
 	//  /**
 	//  * Set the default product stock level for the given product
