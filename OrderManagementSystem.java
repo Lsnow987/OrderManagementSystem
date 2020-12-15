@@ -317,7 +317,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	//  */
 	//  protected void discontinueItem(Item item) {
 		
-		protected void discontinueItem(Item item) {
+	protected void discontinueItem(Item item) {
 		if(items instanceof Service){
 			setOfServicesProvidedByTheServiceProvidersremove((Service)item); //remove from here
 			mapOfServicesToTheListOfServiceProviders.remove((Service)item); //also here
@@ -327,7 +327,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 		}
 		//Set<Item> itemsThatCannotBeAdded = new HashSet<>();
 	 	itemsThatCannotBeAdded.add(item);//need to check this set always before i try adding so prob should make it an instance variable
-
+	}
 	//  /**
 	//  * Set the default product stock level for the given product
 	//  * @param prod
