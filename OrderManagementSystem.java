@@ -1,6 +1,8 @@
 package edu.yu.cs.intro.orderManagement;
 import java.util.Set;
 import java.util.Map;
+import java.util.Collection;
+import java.util.HashSet;
 /**
 * Takes orders, manages the warehouse as well as service providers
 */
@@ -11,7 +13,7 @@ public class OrderManagementSystem {
 	private Set<ServiceProvider> serviceProviderSet;
 	private Warehouse warehouseObject;
 	private Set<Service> setOfServicesProvidedByTheServiceProviders;
-	private Map<Service, ServiceProvider>  mapOfServicesToTheListOfServiceProviders;
+	private Map<Service, Set<ServiceProvider>>   mapOfServicesToTheListOfServiceProviders;
 	private Map<ServiceProvider, Integer> busyOrFree;
 	private Set<Item> itemsThatCannotBeAdded;
 
@@ -23,11 +25,11 @@ public class OrderManagementSystem {
 	* @param serviceProviders
 	*/
 	public OrderManagementSystem(Set<Product> products, int defaultProductStockLevel, Set<ServiceProvider> serviceProviders) {
+		this(products, defaultProductStockLevel, serviceProviders, new Warehouse());
 		//this.productSet = products;
 		//this.productStockLevel = defaultProductStockLevel;
 		//this.serviceProviderSet = serviceProviders;
 		//this.warehouseObject = new Warehouse();
-		OrderManagementSystem(products, defaultProductStockLevel, serviceProviders, new Warehouse()); 
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class OrderManagementSystem {
 		this.warehouseObject = warehouse;
 
 		//1) populate the warehouse with the products.
-		for(Product currentProduct : this.productset){
+		for(Product currentProduct : this.productSet){
 			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
 		}
 
@@ -98,13 +100,15 @@ public class OrderManagementSystem {
 		Set<Service> serviceSet = order.getServices(); //see order.java
 		for(Service currentService : serviceSet){
 			//serviceProvidersForThisOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
-			Set<ServiceProvider> allServiceProvidersForOneOrder = mapOfServicesToTheListOfServiceProviders.get(currentService);
+			Set<ServiceProvider> allServiceProvidersForOneOrder = new HashSet<>();
+			allServiceProvidersForOneOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
 			boolean allServiceProvidersAreBusy = true;
 			for (ServiceProvider currentServiceProvider : allServiceProvidersForOneOrder) {
-				if (!busy) {                                                         //doesn't exist i need to figure out a way to set things to busy and check if they are busy
+				int count = busyOrFree.getOrDefault(currentServiceProvider, 0);
+				if (count%4 == 0) {
 					serviceProvidersForThisOrder.add(currentServiceProvider);
 					allServiceProvidersAreBusy = false;
-					//currentServiceProvider.assignToCustomer()
+					currentServiceProvider.assignToCustomer();
 					break;
 				}
 			}
@@ -134,11 +138,11 @@ public class OrderManagementSystem {
 			boolean canTheOrderBeMadeWithoutRestocking = this.warehouseObject.canFulfill(currentProductNumber, currentProductQuantityOrdered); //int productNumber only expecting products not services????
 			 //check if the product is restockable if i dont have enough
 			boolean canTheOrderBeRestocked = this.warehouseObject.isRestockable(currentProductNumber);
-			if(!canTheOrderBeMade && !canTheOrderBeRestocked){
+			if(!canTheOrderBeMadeWithoutRestocking && !canTheOrderBeRestocked){
 				throw new IllegalArgumentException("We do not have enough of the product in stock " + currentProduct.getDescription());
 			}else{
 				this.warehouseObject.restock(currentProductNumber, currentProductQuantityOrdered); //only restocks if their is not enough in stock, otherwise does nothing
-				fulfill(currentProductNumber, currentProductQuantityOrdered);
+				this.warehouseObject.fulfill(currentProductNumber, currentProductQuantityOrdered);
 			}
 		}
 		//number 3 
@@ -158,7 +162,7 @@ public class OrderManagementSystem {
 			count++;
 			busyOrFree.put(currentServiceProviderInTheSet, count);
 			if (count%4 == 0 && count>0) {
-				currentServiceProvider.endCustomerEngagement();
+				currentServiceProviderInTheSet.endCustomerEngagement();
 			}
 
 			//currentServiceProvider.assignToCustomer(); //check for nullpointer if has key but no serviceprovider
@@ -191,7 +195,8 @@ protected int validateServices(Collection<Service> services, Order order) {
 		// 	instances of a given service are being requested in the order, and see if we have enough providers
 		// 	for them.
 		int numberOfCurrentServiceBeingOdered = order.getQuantity(currentService);
-		Set<ServiceProvider> sP = mapOfServicesToTheListOfServiceProviders.get(currentService);
+		Set<ServiceProvider> sP = new HashSet<>();
+		sP.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
 		int availableSP = 0;
 			for (ServiceProvider currentSP : sP){
 				if(!currentSP.isBusy()){
@@ -251,9 +256,9 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	// already in the warehouse before this was called!)
 	//  */
 	protected Set<Product> addNewProducts(Collection<Product> products) {
-  		if(itemsThatCannotBeAdded.conains((Item) products)){
+  		//if(itemsThatCannotBeAdded.contains((Item) products)){
 			//what am i supposed to do here???
-		}
+		//}
 		
 		for(Product currentProduct : products){ //do i need to check if product already exists
 			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
@@ -302,7 +307,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	//  * @return get the set of all the Services offered/sold by this business
 	//  */
 	public Set<Service> getOfferedServices() {
-		return this.serviceProviderSet;
+		return this.setOfServicesProvidedByTheServiceProviders;
 	}
 
 
@@ -318,8 +323,8 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	//  protected void discontinueItem(Item item) {
 		
 	protected void discontinueItem(Item item) {
-		if(items instanceof Service){
-			setOfServicesProvidedByTheServiceProvidersremove((Service)item); //remove from here
+		if(item instanceof Service){
+			setOfServicesProvidedByTheServiceProviders.remove((Service)item); //remove from here
 			mapOfServicesToTheListOfServiceProviders.remove((Service)item); //also here
 			//this.serviceProviderSet.removeService((Service)item); //can icall it on a set?????
 		}else{
@@ -336,22 +341,4 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	protected void setDefaultProductStockLevel(Product prod, int level) {
 	  	this.warehouseObject.setDefaultStockLevel(prod.getItemNumber(), level);
 	}
-		
-		
-		
-		
-		
-		
-
-	//  /**
-	//  * Set the default product stock level for the given product
-	//  * @param prod
-	//  * @param level
-	//  */
-	protected void setDefaultProductStockLevel(Product prod, int level) {
-	  	this.warehouseObject.setDefaultStockLevel(prod.getItemNumber(), level);
-	}
-
-
-
 }
