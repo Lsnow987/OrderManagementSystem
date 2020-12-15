@@ -13,6 +13,7 @@ public class OrderManagementSystem {
 	private Set<Service> setOfServicesProvidedByTheServiceProviders;
 	private Map<Service, ServiceProvider>  mapOfServicesToTheListOfServiceProviders;
 	private Map<ServiceProvider, Integer> busyOrFree;
+	private Set<Item> itemsThatCannotBeAdded;
 
 	/**
 	* Creates a new Warehouse instance ******** and calls the other constructor
@@ -147,8 +148,8 @@ public class OrderManagementSystem {
 		//for(ServiceProvider currentServiceProviderInTheOrder : serviceProvidersForThisOrder){
 
 		//}
-		serviceProvidersForThisOrder
-		assignToCustomer() 
+		//serviceProvidersForThisOrder
+		//assignToCustomer() 
 
 
 
@@ -250,7 +251,11 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	// already in the warehouse before this was called!)
 	//  */
 	protected Set<Product> addNewProducts(Collection<Product> products) {
-  		for(Product currentProduct : products){ //do i need to check if product already exists
+  		if(itemsThatCannotBeAdded.conains((Item) products)){
+			//what am i supposed to do here???
+		}
+		
+		for(Product currentProduct : products){ //do i need to check if product already exists
 			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
 		}
 		Set<Product> productSetAdded = new HashSet<>();
@@ -320,7 +325,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 		}else{
 			this.warehouseObject.doNotRestock(item.getItemNumber());
 		}
-		Set<Item> itemsThatCannotBeAdded = new HashSet<>();
+		//Set<Item> itemsThatCannotBeAdded = new HashSet<>();
 	 	itemsThatCannotBeAdded.add(item);//need to check this set always before i try adding so prob should make it an instance variable
 
 	//  /**
