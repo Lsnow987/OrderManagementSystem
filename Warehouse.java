@@ -35,10 +35,10 @@ public class Warehouse {
 	 * @param desiredStockLevel the number to stock initially, and also to restock to when
 	subsequently restocked
 	 * @throws IllegalArgumentException if the product is in the "do not restock" set, or if the
-	product is already in the warehouse
+	product is already in the warehouse 
 	 */
 	 protected void addNewProductToWarehouse(Product product, int desiredStockLevel){
-	 	if (!isRestockable(product.getItemNumber())) {
+	 	if (doNotRestockSet.contains(product.getItemNumber()) || productList.containsKey(product)) {
 	 		throw new IllegalArgumentException();
 	 	}
 	 	productList.put(product, desiredStockLevel);
