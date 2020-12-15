@@ -98,7 +98,7 @@ public class OrderManagementSystem {
 		Set<Service> serviceSet = order.getServices(); //see order.java
 		for(Service currentService : serviceSet){
 			//serviceProvidersForThisOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
-			Set<ServiceProvider> allServiceProvidersForOneOrder = mapOfServicesToTheListOfServiceProviders.get(currentService)
+			Set<ServiceProvider> allServiceProvidersForOneOrder = mapOfServicesToTheListOfServiceProviders.get(currentService);
 			boolean allServiceProvidersAreBusy = true;
 			for (ServiceProvider currentServiceProvider : allServiceProvidersForOneOrder) {
 				if (!busy) {                                                         //doesn't exist i need to figure out a way to set things to busy and check if they are busy
