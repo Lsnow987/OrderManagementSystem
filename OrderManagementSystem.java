@@ -256,9 +256,11 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	// already in the warehouse before this was called!)
 	//  */
 	protected Set<Product> addNewProducts(Collection<Product> products) {
-  		//if(itemsThatCannotBeAdded.contains((Item) products)){
-			//what am i supposed to do here???
-		//}
+ 		for (Product currentProduct : products) {
+  			if(itemsThatCannotBeAdded.contains((Item) currentProduct)){
+				//what am i supposed to do here???
+			}
+  		}
 		
 		for(Product currentProduct : products){ //do i need to check if product already exists
 			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
