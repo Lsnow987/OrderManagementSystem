@@ -278,7 +278,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	// Services are offered and which ServiceProviders provide which services
 	//  * @param provider the provider to add
 	//  */
-	protected void addServiceProvider(ServiceProvider provider) {
+	protected void addServiceProvider(ServiceProvider provider) { //we are adding services here so we need to check if this is on the do not add list
 		for(Service currentService : provider.getServices()){
 			setOfServicesProvidedByTheServiceProviders.add(currentService);
 			if(mapOfServicesToTheListOfServiceProviders.get(currentService)==null){
