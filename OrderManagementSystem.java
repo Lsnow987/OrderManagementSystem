@@ -13,10 +13,10 @@ public class OrderManagementSystem {
 	private int productStockLevel;
 	private Set<ServiceProvider> serviceProviderSet;
 	private Warehouse warehouseObject;
-	private Set<Service> setOfServicesProvidedByTheServiceProviders;
-	private Map<Service, Set<ServiceProvider>>   mapOfServicesToTheListOfServiceProviders;
-	private Map<ServiceProvider, Integer> busyOrFree;
-	private Set<Service> itemsThatCannotBeAdded;
+	private Set<Service> setOfServicesProvidedByTheServiceProviders = new HashSet<>();
+	private Map<Service, Set<ServiceProvider>>   mapOfServicesToTheListOfServiceProviders = new HashMap<>();
+	private Map<ServiceProvider, Integer> busyOrFree  = new HashMap<>();
+	private Set<Service> itemsThatCannotBeAdded = new HashSet<>();
 
 	/**
 	* Creates a new Warehouse instance ******** and calls the other constructor
@@ -267,7 +267,6 @@ protected int validateProducts(Collection<Product> products, Order order) {
   		
 		
 		for(Product currentProduct : products){ //do i need to check if product already exists
-			
 			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
 		}
 		Set<Product> productSetAdded = new HashSet<>();
