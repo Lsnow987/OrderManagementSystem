@@ -26,7 +26,6 @@ public class Warehouse {
 	 * @return all unique Products stocked in the warehouse
 	 */
 	 protected Set<Product> getAllProductsInCatalog(){
-	 	catalogContains = productList.keySet();
 	 	return productList.keySet();
 	 }
 	 /**
@@ -84,11 +83,14 @@ public class Warehouse {
 	 * @return how many of the given product we have in stock, or zero if it is not stocked
 	 */
 	 protected int getStockLevel(int productNumber){
-	 	if (isRestockable(productNumber)) {
+	 	//if (isRestockable(productNumber)) {
+	 	if(isInCatalog(productNumber)){
+	 		System.out.println("hello");
 	 		Product currentProduct = productNumberList.get(productNumber);
 	 		return productList.get(currentProduct);
 	 	}
 	 	else {
+	 		System.out.println("hello1");
 	 		return 0;
 	 	}
 	 }
@@ -98,10 +100,12 @@ public class Warehouse {
 	 */
 	 protected boolean isInCatalog(int itemNumber){
 	 	Product currentProduct = productNumberList.get(itemNumber);
-	 	if (catalogContains.contains(currentProduct)) {
+	 	if (productList.containsKey(currentProduct)) {
+	 		System.out.println("hello3");
 	 		return true;
 	 	}
 	 	else {
+	 		System.out.println("hello4");
 	 		return false;
 	 	}
 	 }
