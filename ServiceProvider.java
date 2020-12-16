@@ -42,7 +42,7 @@ public class ServiceProvider {
 	 * Assign this provider to a customer. Record the fact that he is busy.
 	 * @throws IllegalStateException if the provider is currently assigned to a job
 	 */
-	protected void assignToCustomer() throws IllegalStateException {
+	protected void assignToCustomer() {
 		if(busy == false){
 			busy = true;
 		}
@@ -57,7 +57,7 @@ public class ServiceProvider {
 	 * Free this provider up - is not longer assigned to a customer
 	 * @throws IllegalStateException if the provider is NOT currently assigned to a job
 	 */
-	protected void endCustomerEngagement() throws IllegalStateException{
+	protected void endCustomerEngagement() {
 		if(busy == true){
 			busy = false;
 		} //end of if
