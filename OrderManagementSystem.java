@@ -144,7 +144,9 @@ public class OrderManagementSystem {
 				throw new IllegalArgumentException("We do not have enough of the product in stock " + currentProduct.getDescription());
 			} 
 			else{
-				this.warehouseObject.restock(currentProductNumber, currentProductQuantityOrdered); //only restocks if their is not enough in stock, otherwise does nothing
+				if(canTheOrderBeRestocked){
+					this.warehouseObject.restock(currentProductNumber, currentProductQuantityOrdered);
+				} 
 				this.warehouseObject.fulfill(currentProductNumber, currentProductQuantityOrdered);
 			}
 		}
@@ -166,14 +168,13 @@ public class OrderManagementSystem {
 			busyOrFree.put(currentServiceProviderInTheSet, count);
 			if (count%4 == 0 && count>0 && serviceProviderIsBusy.getOrDefault(currentServiceProviderInTheSet,0) == 1) {
 				currentServiceProviderInTheSet.endCustomerEngagement();
+				serviceProviderIsBusy.put(currentServiceProviderInTheSet,0);
 			}
 
 			//currentServiceProvider.assignToCustomer(); //check for nullpointer if has key but no serviceprovider
 		}
 	}
-
-
-
+	
 	//  /**
 //  * Validate that all the services being ordered can be provided. Make sure to check how many
 // instances of a given service are being requested in the order, and see if we have enough providers
