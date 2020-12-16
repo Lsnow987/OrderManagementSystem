@@ -141,7 +141,8 @@ public class OrderManagementSystem {
 			boolean canTheOrderBeRestocked = this.warehouseObject.isRestockable(currentProductNumber);
 			if(!canTheOrderBeMadeWithoutRestocking && !canTheOrderBeRestocked){
 				throw new IllegalArgumentException("We do not have enough of the product in stock " + currentProduct.getDescription());
-			}else{
+			} 
+			else{
 				this.warehouseObject.restock(currentProductNumber, currentProductQuantityOrdered); //only restocks if their is not enough in stock, otherwise does nothing
 				this.warehouseObject.fulfill(currentProductNumber, currentProductQuantityOrdered);
 			}
@@ -335,7 +336,7 @@ protected int validateProducts(Collection<Product> products, Order order) {
 			//this.serviceProviderSet.removeService((Service)item); //can icall it on a set?????
 			itemsThatCannotBeAdded.add((Service)item);
 		}else{
-			this.warehouseObject.doNotRestock(item.getItemNumber());
+			this.warehouseObject.doNotRestock(((Product)item).getItemNumber());
 		}
 		//Set<Item> itemsThatCannotBeAdded = new HashSet<>();
 	 	//need to check this set always before i try adding so prob should make it an instance variable
