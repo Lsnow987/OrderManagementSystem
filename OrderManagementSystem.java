@@ -17,7 +17,7 @@ public class OrderManagementSystem {
 	private Map<Service, Set<ServiceProvider>>   mapOfServicesToTheListOfServiceProviders = new HashMap<>();
 	private Map<ServiceProvider, Integer> busyOrFree  = new HashMap<>();
 	private Set<Service> itemsThatCannotBeAdded = new HashSet<>();
-
+	private Map<ServiceProvider, Integer> serviceProviderIsBusy= new HashMap<>();
 	/**
 	* Creates a new Warehouse instance ******** and calls the other constructor
 	*
@@ -110,6 +110,7 @@ public class OrderManagementSystem {
 					serviceProvidersForThisOrder.add(currentServiceProvider);
 					allServiceProvidersAreBusy = false;
 					currentServiceProvider.assignToCustomer();
+					serviceProviderIsBusy.put(currentServiceProvider,1);
 					break;
 				}
 			}
@@ -163,7 +164,7 @@ public class OrderManagementSystem {
 			int count = busyOrFree.getOrDefault(currentServiceProviderInTheSet, 0);
 			count++;
 			busyOrFree.put(currentServiceProviderInTheSet, count);
-			if (count%4 == 0 && count>0) {
+			if (count%4 == 0 && count>0 && serviceProviderIsBusy.getOrDefault(currentServiceProviderInTheSet,0) == 1) {
 				currentServiceProviderInTheSet.endCustomerEngagement();
 			}
 
