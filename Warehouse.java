@@ -85,12 +85,12 @@ public class Warehouse {
 	 protected int getStockLevel(int productNumber){
 	 	//if (isRestockable(productNumber)) {
 	 	if(isInCatalog(productNumber)){
-	 		System.out.println("hello");
+	 		//System.out.println("hello");
 	 		Product currentProduct = productNumberList.get(productNumber);
 	 		return productList.get(currentProduct);
 	 	}
 	 	else {
-	 		System.out.println("hello1");
+	 		//System.out.println("hello1");
 	 		return 0;
 	 	}
 	 }
@@ -101,11 +101,11 @@ public class Warehouse {
 	 protected boolean isInCatalog(int itemNumber){
 	 	Product currentProduct = productNumberList.get(itemNumber);
 	 	if (productList.containsKey(currentProduct)) {
-	 		System.out.println("hello3");
+	 		//System.out.println("hello3");
 	 		return true;
 	 	}
 	 	else {
-	 		System.out.println("hello4");
+	 		//System.out.println("hello4");
 	 		return false;
 	 	}
 	 }
@@ -115,7 +115,8 @@ public class Warehouse {
 	 * @return false if it's not in catalog or is in the "do not restock" set. Otherwise true.
 	 */
 	 protected boolean isRestockable(int itemNumber){
-	 	if (!isInCatalog(itemNumber) || doNotRestockSet.contains(itemNumber)) {
+	 	Product currentProduct = productNumberList.get(itemNumber);
+	 	if (!isInCatalog(itemNumber) || doNotRestockSet.contains(currentProduct)) {
 	 		return false;
 	 	}
 	 	else{
