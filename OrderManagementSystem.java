@@ -286,14 +286,16 @@ protected int validateProducts(Collection<Product> products, Order order) {
 	//  */
 	protected void addServiceProvider(ServiceProvider provider) {
 		for(Service currentService : provider.getServices()){
-			setOfServicesProvidedByTheServiceProviders.add(currentService);
-			if(mapOfServicesToTheListOfServiceProviders.get(currentService)==null){
-				Set<ServiceProvider> serviceProvidersForCurrentService = new HashSet<>();
-				serviceProvidersForCurrentService.add(provider);
-				mapOfServicesToTheListOfServiceProviders.put(currentService, serviceProvidersForCurrentService);
-			}else{
-				Set<ServiceProvider> serviceProvidersForCurrentServiceAlreadyInMap = mapOfServicesToTheListOfServiceProviders.get(currentService);
-				serviceProvidersForCurrentServiceAlreadyInMap.add(provider);
+			if(!itemsThatCannotBeAdded.contains(currentService)){
+				setOfServicesProvidedByTheServiceProviders.add(currentService);
+				if(mapOfServicesToTheListOfServiceProviders.get(currentService)==null){
+					Set<ServiceProvider> serviceProvidersForCurrentService = new HashSet<>();
+					serviceProvidersForCurrentService.add(provider);
+					mapOfServicesToTheListOfServiceProviders.put(currentService, serviceProvidersForCurrentService);
+				}else{
+					Set<ServiceProvider> serviceProvidersForCurrentServiceAlreadyInMap = mapOfServicesToTheListOfServiceProviders.get(currentService);
+					serviceProvidersForCurrentServiceAlreadyInMap.add(provider);
+				}
 			}
 		}	
 		serviceProviderSet.add(provider);
