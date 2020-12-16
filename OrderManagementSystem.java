@@ -130,7 +130,7 @@ public class OrderManagementSystem {
 			//Set<ServiceProvider> currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);
 			 //keySet()
 
-			//what do i do when he is busy???
+			
 		}
 		//number 2 
 		Set<Product> productSet = order.getProducts();
