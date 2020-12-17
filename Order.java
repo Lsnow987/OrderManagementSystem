@@ -17,7 +17,7 @@ public class Order {
 		return (Item[])itemToQuantity.keySet().toArray();
 	}
 	
-	protected Set getServices(){
+	protected Set<Service> getServices(){
 		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
 		Set<Service> serviceSet = new HashSet<>();
 		for(Item currentItem : serviceAndProductSet){ 
@@ -28,7 +28,7 @@ public class Order {
 		return serviceSet;
 	}
 
-	protected Set getProducts(){
+	protected Set<Product> getProducts(){
 		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
 		Set<Product> productSet = new HashSet<>();
 		for(Item currentItem : serviceAndProductSet){ 
