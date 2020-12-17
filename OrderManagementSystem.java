@@ -234,11 +234,11 @@ protected int validateProducts(Collection<Product> products, Order order) {
 		}
 		//or which we have insufficient quantity of
 		if(productToAmount.get(product) == null){
-			Integer amount = new Integer(1);
+			int amount = 1;
 			productToAmount.put(product,amount);
 		}
 		else{
-			Integer newAmount = new Integer(productToAmount.get(product).intValue() + 1);
+			int newAmount = (productToAmount.get(product).intValue() + 1);
 			productToAmount.put(product,newAmount);
 		}
 	}
