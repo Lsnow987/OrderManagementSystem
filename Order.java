@@ -5,18 +5,28 @@ package edu.yu.cs.intro.orderManagement;
 or Service
 */
 import java.util.HashMap;
-import java.util.*;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Set;
 public class Order {
-	HashMap<Item,Integer> itemToQuantity = new HashMap<>();
-	boolean isItCompleted = false;
+	private HashMap<Item,Integer> itemToQuantity = new HashMap<>();
+	private ArrayList<Item> itemArrayList = new ArrayList<Item>();
+	private boolean isItCompleted = false;
 	public Order(){}
 	/**
 	* @return all the items (products and services) in the order
 	*/
 	public Item[] getItems(){
-		return (Item[])itemToQuantity.keySet().toArray();
+		Item itemArray[] = new Item[itemArrayList.size()];
+		return itemArrayList.toArray(itemArray);
+		
+		/*Set<Item> itemSet = itemToQuantity.keySet();
+		Item[] itemArray =  new Item[itemSet.size()-1]; //should i have minus 1????
+		for (Item currentItem : itemSet) {
+			itemArray
+		}*/
 	}
-	//my code
+	
 	protected Set<Service> getServices(){
 		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
 		Set<Service> serviceSet = new HashSet<>();
@@ -27,7 +37,7 @@ public class Order {
 		}
 		return serviceSet;
 	}
- 	//my code
+
 	protected Set<Product> getProducts(){
 		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
 		Set<Product> productSet = new HashSet<>();
@@ -45,7 +55,7 @@ public class Order {
 	order.
 	*/
 	public int getQuantity(Item b){
-		return itemToQuantity.getOrDefault(b, 0); //why can it not find symbol????
+		return itemToQuantity.getOrDefault(b, 0); 
 	}
 	/**
 	* Add the given quantity of the given item (product or service) to the order
@@ -53,6 +63,7 @@ public class Order {
 	* @param quantity
 	*/
 	public void addToOrder(Item item, int quantity){
+		itemArrayList.add(item);
 		itemToQuantity.put(item,quantity);
 	}
 	/**
@@ -105,4 +116,3 @@ public class Order {
 	
 	
 }
-
