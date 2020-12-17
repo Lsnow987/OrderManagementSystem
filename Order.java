@@ -16,7 +16,7 @@ public class Order {
 	public Item[] getItems(){
 		return (Item[])itemToQuantity.keySet().toArray();
 	}
-	
+	//my code
 	protected Set<Service> getServices(){
 		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
 		Set<Service> serviceSet = new HashSet<>();
@@ -27,7 +27,7 @@ public class Order {
 		}
 		return serviceSet;
 	}
-
+ 	//my code
 	protected Set<Product> getProducts(){
 		Set<Item> serviceAndProductSet = itemToQuantity.keySet();
 		Set<Product> productSet = new HashSet<>();
