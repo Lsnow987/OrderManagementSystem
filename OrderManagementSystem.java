@@ -100,6 +100,12 @@ public class OrderManagementSystem {
 		Set<ServiceProvider> serviceProvidersForThisOrder = new HashSet<>();
 		Set<Service> serviceSet = order.getServices(); //see order.java
 		for(Service currentService : serviceSet){
+			boolean mapContainsService = mapOfServicesToTheListOfServiceProviders.keySet().contains(currentService);
+			if(!mapContainsService){
+				//order.setCompleted(false);
+				throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
+			}
+
 			//serviceProvidersForThisOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
 			Set<ServiceProvider> allServiceProvidersForOneOrder = new HashSet<>();
 			allServiceProvidersForOneOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
@@ -115,13 +121,11 @@ public class OrderManagementSystem {
 				}
 			}
 			if (allServiceProvidersAreBusy) {
+				//order.setCompleted(false);
 				throw new IllegalStateException ("Provider is currently assigned to a job");
 			}
 
-			boolean mapContainsService = mapOfServicesToTheListOfServiceProviders.keySet().contains(currentService);
-			if(!mapContainsService){
-				throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
-			}
+			
 			//number 4
 			//Set<Service> currentService = mapOfServicesToTheListOfServiceProviders.keySet();
 
@@ -130,7 +134,7 @@ public class OrderManagementSystem {
 			//Set<ServiceProvider> currentServiceProvider = mapOfServicesToTheListOfServiceProviders.get(currentService);
 			 //keySet()
 
-			
+			//what do i do when he is busy???
 		}
 		//number 2 
 		Set<Product> productSet = order.getProducts();
@@ -141,6 +145,7 @@ public class OrderManagementSystem {
 			 //check if the product is restockable if i dont have enough
 			boolean canTheOrderBeRestocked = this.warehouseObject.isRestockable(currentProductNumber);
 			if(!canTheOrderBeMadeWithoutRestocking && !canTheOrderBeRestocked){
+				//order.setCompleted(false);
 				throw new IllegalArgumentException("We do not have enough of the product in stock " + currentProduct.getDescription());
 			} 
 			else{
@@ -159,8 +164,6 @@ public class OrderManagementSystem {
 		//}
 		//serviceProvidersForThisOrder
 		//assignToCustomer() 
-
-
 
 		for(ServiceProvider currentServiceProviderInTheSet : serviceProviderSet){
 			int count = busyOrFree.getOrDefault(currentServiceProviderInTheSet, 0);
