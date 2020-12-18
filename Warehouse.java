@@ -20,10 +20,9 @@ public class Warehouse {
 	 protected Warehouse(){
 	 	productList = new HashMap<Product, Integer>();
 	 	productNumberList = new HashMap<Integer, Product>();
-	 	defaultStockLevel = new Hashmap<Product, Integer>();
+	 	defaultStockLevel = new HashMap<Product, Integer>();
 	 	doNotRestockSet = new HashSet<Product>();
 	 	catalogContains = new HashSet<Product>();
-	 	defaultStockLevel = 0;
 	 }
 	 /**
 	 * @return all unique Products stocked in the warehouse
@@ -170,3 +169,4 @@ public class Warehouse {
 	 	productList.put(currentProduct, currentStock - quantity);
 	 }
 }
+
