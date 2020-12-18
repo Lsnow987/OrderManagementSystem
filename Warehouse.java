@@ -10,17 +10,20 @@ import java.util.HashSet;
 public class Warehouse {
 	private Map<Product, Integer> productList; 
 	private Map<Integer, Product> productNumberList;
+	private Map<Product, Integer> defaultStockLevel;
 	private Set<Product> doNotRestockSet;
 	private Set<Product> catalogContains;
-
+	
 	 /**
 	 * create a warehouse, initialize all the instance variables
 	 */
 	 protected Warehouse(){
 	 	productList = new HashMap<Product, Integer>();
 	 	productNumberList = new HashMap<Integer, Product>();
+	 	defaultStockLevel = new Hashmap<Product, Integer>();
 	 	doNotRestockSet = new HashSet<Product>();
 	 	catalogContains = new HashSet<Product>();
+	 	defaultStockLevel = 0;
 	 }
 	 /**
 	 * @return all unique Products stocked in the warehouse
@@ -40,12 +43,13 @@ public class Warehouse {
 	 	if (doNotRestockSet.contains(product.getItemNumber()) || productList.containsKey(product)) {
 	 		throw new IllegalArgumentException();
 	 	}
+	 	defaultStockLevel.put(product, desiredStockLevel);
 	 	productList.put(product, desiredStockLevel);
 	 	productNumberList.put(product.getItemNumber(), product);
 	 }
 	 /**
-	 * If the actual stock is already >= the minimum, do nothing. Otherwise, raise it to the
-	minimum level.
+	 * If the actual stock is already >= the minimum, do nothing. Otherwise, raise it to minimum OR
+	the default stock level, whichever is greater
 	 * @param productNumber
 	 * @param minimum
 	 * @throws IllegalArgumentException if the product is in the "do not restock" set, or if it is
@@ -58,7 +62,12 @@ public class Warehouse {
 	 	Product currentProduct = productNumberList.get(productNumber);
 	 	int currentStock = productList.get(currentProduct);
 	 	if (currentStock < minimum) {
-	 		productList.put(currentProduct, minimum);
+	 		if (defaultStockLevel.get(currentProduct) > minimum) {
+	 			productList.put(currentProduct, defaultStockLevel.get(currentProduct));
+	 		}
+	 		else{
+	 			productList.put(currentProduct, minimum);
+	 		}
 	 	}
 	 }
 	 /**
@@ -74,23 +83,20 @@ public class Warehouse {
 	 		throw new IllegalArgumentException();
 	 	}
 	 	Product currentProduct = productNumberList.get(productNumber);
-	 	int previousStock = productList.get(currentProduct);
-	 	productList.put(currentProduct, quantity);
-	 	return previousStock;
+	 	int previousDefaultStockLevel = defaultStockLevel.get(currentProduct);
+	 	defaultStockLevel.put(currentProduct, quantity);
+	 	return previousDefaultStockLevel;
 	 }
 	 /**
 	 * @param productNumber
 	 * @return how many of the given product we have in stock, or zero if it is not stocked
 	 */
 	 protected int getStockLevel(int productNumber){
-	 	//if (isRestockable(productNumber)) {
 	 	if(isInCatalog(productNumber)){
-	 		//System.out.println("hello");
 	 		Product currentProduct = productNumberList.get(productNumber);
 	 		return productList.get(currentProduct);
 	 	}
 	 	else {
-	 		//System.out.println("hello1");
 	 		return 0;
 	 	}
 	 }
@@ -101,11 +107,9 @@ public class Warehouse {
 	 protected boolean isInCatalog(int itemNumber){
 	 	Product currentProduct = productNumberList.get(itemNumber);
 	 	if (productList.containsKey(currentProduct)) {
-	 		//System.out.println("hello3");
 	 		return true;
 	 	}
 	 	else {
-	 		//System.out.println("hello4");
 	 		return false;
 	 	}
 	 }
