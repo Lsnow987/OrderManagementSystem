@@ -278,16 +278,14 @@ protected int validateProducts(Collection<Product> products, Order order) {
 			//what am i supposed to do here???
 			//}
   		//}
-
-
-  		
-		
-		for(Product currentProduct : products){ //do i need to check if product already exists
-			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
-		}
 		Set<Product> productSetAdded = new HashSet<>();
+		for(Product currentProduct : products){ //do i need to check if product already exists
+			if (!this.productSet.contains(currentProduct)){
+				productSetAdded.add(currentProduct);
+				this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
+			}
+		}
 		this.productSet.addAll(products);
-		productSetAdded.addAll(products);
 		return productSetAdded;
 	}
 	 
