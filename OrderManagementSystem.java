@@ -215,7 +215,7 @@ protected int validateServices(Collection<Service> services, Order order) {
 }
 
 	 
-	//  /**
+		//  /**
 	//  * validate that the requested quantity of products can be fulfilled
 	//  * @param products being ordered in this order
 	//  * @param order the order whose products we are validating
@@ -223,34 +223,44 @@ protected int validateServices(Collection<Service> services, Order order) {
 	// insufficient quantity of. Return 0 if we can fulfill.
 	//  */
 protected int validateProducts(Collection<Product> products, Order order) {
-	Set<Product> allProductsInCatalog = new HashSet<Product>(); 
-	allProductsInCatalog.addAll(this.warehouseObject.getAllProductsInCatalog());
-	Map<Product,Integer> productToAmount= new HashMap<Product,Integer>();
-	
+	//Set<Product> allProductsInCatalog = new HashSet<Product>(); 
+	// allProductsInCatalog.addAll(this.warehouseObject.getAllProductsInCatalog());
+	// Map<Integer,Integer> productToAmount= new HashMap<Integer,Integer>();
+	// int pInt = 0;
+	// for(Product product : products){
+	// 	//return itemNumber of product which is either not in the catalog(realized that don't need this step but doesn't hurt)
+	// 	if(!allProductsInCatalog.contains(product)){	
+	// 		return product.getItemNumber();
+	// 	}
+	// 	//or which we have insufficient quantity of
+	// 	pInt = product.getItemNumber();
+	// 	if(productToAmount.get(pInt) == null){
+	// 		int amount = 1;
+	// 		productToAmount.put(pInt,amount);
+	// 	}
+	// 	else{
+	// 		int newAmount = (productToAmount.get(pInt) + 1);
+	// 		productToAmount.put(pInt,newAmount);
+	// 	}
+	// }
+	// //or which we have insufficient quantity of(cont)
+	// for(Product product : products){
+	// 	pInt = product.getItemNumber();
+	// 	if (!warehouseObject.canFulfill(pInt, productToAmount.get(pInt)) && !warehouseObject.isRestockable(pInt)){
+	// 		return product.getItemNumber();
+	// 	}
+	// }
+	// return 0;
+
+
 	for(Product product : products){
-		//return itemNumber of product which is either not in the catalog(realized that don't need this step but doesn't hurt)
-		if(!allProductsInCatalog.contains(product)){	
-			return product.getItemNumber();
-		}
-		//or which we have insufficient quantity of
-		if(productToAmount.get(product) == null){
-			int amount = 1;
-			productToAmount.put(product,amount);
-		}
-		else{
-			int newAmount = (productToAmount.get(product).intValue() + 1);
-			productToAmount.put(product,newAmount);
-		}
-	}
-	//or which we have insufficient quantity of(cont)
-	for(Product product : products){
-		if (!warehouseObject.canFulfill(product.getItemNumber(), productToAmount.get(product).intValue()) && !warehouseObject.isRestockable(product.getItemNumber())){
-			return product.getItemNumber();
+		int pInt = product.getItemNumber();
+		if (!warehouseObject.canFulfill(pInt, order.getQuantity(product)) && !warehouseObject.isRestockable(pInt)){
+			return pInt;
 		}
 	}
 	return 0;
 }
-
 
 
 	//  /**
