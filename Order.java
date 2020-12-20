@@ -62,9 +62,17 @@ public class Order {
 	* @param item
 	* @param quantity
 	*/
+	//Changed for 8B
 	public void addToOrder(Item item, int quantity){
-		itemArrayList.add(item);
-		itemToQuantity.put(item,quantity);
+		if(!itemArrayList.contains(item)){  
+			itemArrayList.add(item);
+		}
+		if(itemToQuantity.get(item) == null){
+			itemToQuantity.put(item,quantity);
+		}else{
+			int newQ = (itemToQuantity.get(item) + quantity);
+			itemToQuantity.put(item, newQ);
+		}
 	}
 	/**
 	* Calculate the total price of PRODUCTS in the order. Must multiply each item's price by the
