@@ -145,6 +145,9 @@ public class Warehouse {
 	 */
 	 protected boolean canFulfill(int productNumber, int quantity){
 	 	Product currentProduct = productNumberList.get(productNumber);
+	 	if (currentProduct == null){
+	 		return false;
+	 	}
 	 	int currentStock = productList.get(currentProduct);
 	 	if (!isInCatalog(productNumber) || currentStock < quantity) {
 	 		return false;
@@ -169,4 +172,3 @@ public class Warehouse {
 	 	productList.put(currentProduct, currentStock - quantity);
 	 }
 }
-
