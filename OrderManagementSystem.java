@@ -200,6 +200,7 @@ protected int validateServices(Collection<Service> services, Order order) {
 
 	//Validate that all the services being ordered can be provided.
 	for(Service currentService : services){
+		//System.out.println("currentService = " + currentService.getItemNumber());
 		if(!set.contains(currentService)){
 			return currentService.getItemNumber();
 		}
@@ -211,13 +212,34 @@ protected int validateServices(Collection<Service> services, Order order) {
 		sP.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
 		int availableSP = 0;
 			for (ServiceProvider currentSP : sP){
-				if(!currentSP.isBusy()){
+				if(!currentSP.isBusyforVS()){
 					availableSP++;
 				}
 			}
+
+			//System.out.println("availableSP = " + availableSP);
+			//System.out.println("numberOfCurrentServiceBeingOdered = " + numberOfCurrentServiceBeingOdered);
 		if(availableSP < numberOfCurrentServiceBeingOdered){
+			for(ServiceProvider a : serviceProviderSet){
+				a.busyforVS(0);
+			}
 			return currentService.getItemNumber();
 		}
+		//.out.println("availableSP:)");
+		//making the SPs used appear busy to this method.  (But not dealing with the fact they become avaiable eventually)
+		int i =0;
+		for (ServiceProvider currentSP : sP){
+			i++;
+			if(!currentSP.isBusyforVS() && i<numberOfCurrentServiceBeingOdered){
+				currentSP.busyforVS(1);
+			}
+		}
+
+
+
+	}
+	for(ServiceProvider a : serviceProviderSet){
+		a.busyforVS(0);
 	}
 	return 0;
 }
