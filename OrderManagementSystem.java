@@ -100,30 +100,32 @@ public class OrderManagementSystem {
 		Set<ServiceProvider> serviceProvidersForThisOrder = new HashSet<>();
 		Set<Service> serviceSet = order.getServices(); //see order.java
 		for(Service currentService : serviceSet){
-			boolean mapContainsService = mapOfServicesToTheListOfServiceProviders.keySet().contains(currentService);
-			if(!mapContainsService){
-				//order.setCompleted(false);
-				throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
-			}
-
-			//serviceProvidersForThisOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
-			Set<ServiceProvider> allServiceProvidersForOneOrder = new HashSet<>();
-			allServiceProvidersForOneOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
-			boolean allServiceProvidersAreBusy = true;
-			for (ServiceProvider currentServiceProvider : allServiceProvidersForOneOrder) {
-				int count = busyOrFree.getOrDefault(currentServiceProvider, 0);
-				if (count%4 == 0) {
-					serviceProvidersForThisOrder.add(currentServiceProvider);
-					allServiceProvidersAreBusy = false;
-					currentServiceProvider.assignToCustomer();
-					serviceProviderIsBusy.put(currentServiceProvider,1);
-					break;
+			int quantityOrdered = order.getQuantity(currentService);
+			for(int x=0; x<quantityOrdered; x++){
+				boolean mapContainsService = mapOfServicesToTheListOfServiceProviders.keySet().contains(currentService);
+				if(!mapContainsService){
+					//order.setCompleted(false);
+					throw new IllegalStateException("We do not have the Service Provider for " + currentService.getDescription());
 				}
-			}
-			if (allServiceProvidersAreBusy) {
-				//order.setCompleted(false);
-				throw new IllegalStateException ("Provider is currently assigned to a job");
-			}
+
+				//serviceProvidersForThisOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService));
+				Set<ServiceProvider> allServiceProvidersForOneOrder = new HashSet<>();
+				allServiceProvidersForOneOrder.addAll(mapOfServicesToTheListOfServiceProviders.get(currentService)); //
+				boolean allServiceProvidersAreBusy = true;
+				for (ServiceProvider currentServiceProvider : allServiceProvidersForOneOrder) {
+					int count = busyOrFree.getOrDefault(currentServiceProvider, 0); //this
+					if (!currentServiceProvider.isBusy()){//if (count%4 == 0) {
+						serviceProvidersForThisOrder.add(currentServiceProvider);
+						allServiceProvidersAreBusy = false;
+						currentServiceProvider.assignToCustomer();
+						serviceProviderIsBusy.put(currentServiceProvider,1);
+						break;
+					}
+				}
+				if (allServiceProvidersAreBusy) {
+					//order.setCompleted(false);
+					throw new IllegalStateException ("Provider is currently assigned to a job");
+				}
 
 			
 			//number 4
@@ -135,7 +137,8 @@ public class OrderManagementSystem {
 			 //keySet()
 
 			//what do i do when he is busy???
-		}
+		} //quantityOrdered loop
+	} //currentService loop end
 		//number 2 
 		Set<Product> productSet = order.getProducts();
 		for(Product currentProduct : productSet){
@@ -167,8 +170,10 @@ public class OrderManagementSystem {
 
 		for(ServiceProvider currentServiceProviderInTheSet : serviceProviderSet){
 			int count = busyOrFree.getOrDefault(currentServiceProviderInTheSet, 0);
+			if(currentServiceProviderInTheSet.isBusy()){
 			count++;
 			busyOrFree.put(currentServiceProviderInTheSet, count);
+			}
 			if (count%4 == 0 && count>0 && serviceProviderIsBusy.getOrDefault(currentServiceProviderInTheSet,0) == 1) {
 				currentServiceProviderInTheSet.endCustomerEngagement();
 				serviceProviderIsBusy.put(currentServiceProviderInTheSet,0);
