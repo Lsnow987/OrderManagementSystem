@@ -51,6 +51,9 @@ public class ServiceProvider {
  		busyForVS = i;
  		//zero means not busy
  	}
+	protected void makeNotBusy(){
+ 		busy=false;
+ 	}
 
 
 	/**
