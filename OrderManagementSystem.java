@@ -78,6 +78,9 @@ public class OrderManagementSystem {
 				//}
 			//}
 		//}	
+	for(ServiceProvider o:serviceProviderSet){
+			o.makeNotBusy();
+		}
 	}
 }
 	 
