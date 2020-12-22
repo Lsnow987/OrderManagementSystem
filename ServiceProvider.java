@@ -12,6 +12,7 @@ public class ServiceProvider {
 	private String name;
 	private int id;
 	private boolean busy = false;
+	private int busyForVS = 0;
 	/**
 	 *
 	 * @param name
