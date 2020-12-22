@@ -53,9 +53,7 @@ public class OrderManagementSystem {
 		this.warehouseObject = warehouse;
 
 		//1) populate the warehouse with the products.
-		for(Product currentProduct : this.productSet){
-			this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
-		}
+			this.addNewProducts(this.productSet);
 
 		//2) retrieve set of services provided by the ServiceProviders, to save it as the set of
 	//services the business can provide
@@ -310,12 +308,13 @@ protected int validateProducts(Collection<Product> products, Order order) {
   		//}
 		Set<Product> productSetAdded = new HashSet<>();
 		for(Product currentProduct : products){ //do i need to check if product already exists
-			//if (!this.productSet.contains(currentProduct)){	
-		this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
-			//}
+			if (!this.warehouseObject.isInCatalog(currentProduct.getItemNumber())) {
+				this.warehouseObject.addNewProductToWarehouse(currentProduct, this.productStockLevel);
+				productSetAdded.add(currentProduct);
+			}
 		}
 		this.productSet.addAll(products);
-		productSetAdded.addAll(products);
+		//productSetAdded.addAll(products);
 		return productSetAdded;
 	}
 	 
